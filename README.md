@@ -33,3 +33,62 @@ Install Burp Suite Community Edition - `wget "https://portswigger.net/burp/relea
 `chmod +x burpsuite.sh`
 
 `./burpsuite.sh`
+
+
+## Step 2: Set Up a Sample Vulnerable Web App
+For testing purposes, we'll use DVWA (Damn Vulnerable Web Application):
+
+- Install LAMP stack (Linux, Apache, MySQL, PHP)
+`sudo apt install apache2 mysql-server php libapache2-mod-php php-mysql -y`
+
+- Download DVWA
+
+`cd /var/www/html`
+
+`sudo git clone https://github.com/digininja/DVWA.git`
+
+`sudo chown -R www-data:www-data DVWA`
+
+`sudo chmod -R 755 DVWA`
+
+- Configure MySQL
+
+`sudo mysql_secure_installation` (Follow prompts to set root password and secure installation)
+
+- Create DVWA database
+`sudo mysql -u root -p`
+
+
+- In MySQL prompt:
+  
+CREATE DATABASE dvwa;
+
+CREATE USER 'dvwa'@'localhost' IDENTIFIED BY 'p@ssw0rd';
+
+GRANT ALL PRIVILEGES ON dvwa.* TO 'dvwa'@'localhost';
+
+FLUSH PRIVILEGES;
+
+exit
+
+
+- Configure DVWA
+
+`cd DVWA/config`
+
+`sudo cp config.inc.php.dist config.inc.php`
+
+`sudo nano config.inc.php`
+
+Update these values:
+
+`$_DVWA['db_user'] = 'dvwa';`
+
+`$_DVWA['db_password'] = 'p@ssw0rd';`
+
+`$_DVWA['db_database'] = 'dvwa';`
+
+- Now lets restart Apache
+`sudo systemctl restart apache2`
+
+**we now access DVWA at `http://localhost/DVWA` in our browser. Login with admin/password.**
