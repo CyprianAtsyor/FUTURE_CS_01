@@ -24,7 +24,9 @@ Install Python and pip (required for many tools) - `sudo apt install python3 pyt
 
 Install Git (for cloning repositories) - `sudo apt install git -y`
 
-Install OWASP ZAP - `sudo apt install zaproxy -y`
+Install OWASP ZAP - `sudo snap install zaproxy --classic`
+
+**Note**: I am running snap intall zaproxy because i am using UBUNTU and --classic beacuse i need the access
 
 Install sqlmap - `sudo apt install sqlmap -y`
 
