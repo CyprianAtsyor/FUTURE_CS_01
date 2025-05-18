@@ -105,8 +105,10 @@ First lets set the **SECURITY LEVEL** to **LOW**
 
 DVWA Security → Set to Low.
 
+---
 
-## Some Basic SQLi (DVWA Security: Low)
+
+# Some Basic SQLi (DVWA Security: Low)
 
 The objective of this is to bypass the login and extract some database information like  the usernames and their respective password(imoji wink).
 
@@ -183,6 +185,8 @@ Cracked: abc123
 ![login](./gordlog.png)
 ![login](./gordonb.png)
 
+---
+
 # SQL Injection on DVWA Medium Security
 
 Key Differences in Medium Security and the Low is 
@@ -238,3 +242,46 @@ Surname: 0d107d09f5bbe40cade3de5c71e9e9b7
 letmein -> Crackstation
 
 5. We login with pablo/letmein
+
+---
+
+# SQL Injection on High Security
+- Step 1: Prepation
+  Set DVWA Security level to High and navigate to **SQL Injection**
+
+**Method** : Cookie Tampering and Manual SQLi
+
+Prerequisites are 
+- DVWA Security set to **High**
+- Browser (Firefox or Chrome)
+- and a valid `PHPSESSID` cookie which we ll obtain after login
+
+- Step 1: Login and set security to High and navigate to SQL injestion
+- we see that the submission form is now driven by a JavaScript
+
+![HavaScriptForm](./javascriptform.png)
+
+- Open Developer tools -> F12
+- Go to network tab
+- Back to page and click the **here to change your ID**
+- a pop up page form appears, input 1 and submit
+- We observe the request goes though
+
+  ![Submit_1](./input1.png)
+
+- Since that works, lets craft a malicious url
+  `http://localhost/DVWA/vulnerabilities/sqli/?id=1' UNION SELECT user,password FROM users-- -`
+
+
+- In the request page, we type `1' UNION SELECT user,password FROM users-- -` and submit
+
+- We observe that the page displays of the usernames and the hash
+
+![HashnPass](./hash2.png)
+
+- Crack **Hash** to get password
+
+curl -s -G \
+--cookie "PHPSESSID=kemqe0e3qhltqdddoelp0ssv1i; security=high" \
+"http://localhost/DVWA/vulnerabilities/sqli/?id=1' UNION SELECT user,password FROM users-- -" \
+| grep -oP '<pre>.*?</pre>'
