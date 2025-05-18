@@ -204,23 +204,25 @@ Now lets navigate to SQL Injection which now will show a dropdown menu.
 
 3. Right-click the `<select>...</select>` block → Choose "Edit as HTML"
    - Replace the entire dropdown code with -> `<input type="text" name="id" value="1">` which changes the dropdown form to an input field
+     ![dropdown](./dropdowncode.png)
    - Click outside the edit or press enter
   
 4. Lets execute the SQL Injection
    - with the page now showing a text box, we enter the payload `1' OR '1'='1`
+     ![textbox](./textbox.png)
    - If it doesnt work we try `1 OR 1=1` without the quotes for the numeric fields
   
      (Image)
 
    - Determine colums: `1' UNION SELECT 1,2-- -`
-     ![columns](./col)
+     ![columns](./col.png)
   
    - Extract passwords: `1' UNION SELECT user,password FROM users-- -`
    
    - Returns all usernames and hashes which are the passwords
-     ![hashes](./hashpass)
+     ![hashes](./hashpass.png)
    - we crack the hashes, we get our passwords
-![crackstation](./hash1)
+![crackstation](./hash1.png)
     
 First name: pablo
 
