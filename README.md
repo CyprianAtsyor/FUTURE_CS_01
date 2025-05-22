@@ -302,11 +302,31 @@ Prerequisites are
   
 - Lets Test with **SQLMAP**
 - 
-  Using this command `explain what method we are using here "sqlmap --level=5 --risk=3 --flush-session -u "http://localhost/DVWA/vulnerabilities/sqli/?id=1" --cookie="PHPSESSID=vnqgiaravme1q5j1daaiv73g24; security=impossible""`
+  Using this command `n"sqlmap --level=5 --risk=3 --flush-session -u "http://localhost/DVWA/vulnerabilities/sqli/?id=1" --cookie="PHPSESSID=vnqgiaravme1q5j1daaiv73g24; security=impossible""`
 
   This command performs an automated SQL injection testing against DVWA's impossible-level security.
 
-curl -s -G \
---cookie "PHPSESSID=kemqe0e3qhltqdddoelp0ssv1i; security=high" \
-"http://localhost/DVWA/vulnerabilities/sqli/?id=1' UNION SELECT user,password FROM users-- -" \
-| grep -oP '<pre>.*?</pre>'
+  ![SQLMAP](./sqlmap.png)
+  ![SQLMAP](./sqlmap1.png)
+  ![SQLMAP](./sqlmap2.png)
+  ![SQLMAP](./sqlmap3.png)
+
+  - Result after failed attempts due to proper defenses
+    `[CRITICAL] all tested parameters appear to be not injectable
+[INFO] testing Connection: close
+[INFO] testing User-Agent: sqlmap/1.7.12
+[WARNING] reflexive heuristics detected that the target is protected by some kind of WAF/IPS/IDS
+[WARNING] no injection point found`
+
+**This is good. It means the page is not vulnerable at this level**✅😊
+
+### Conclusion: Why You Can’t Bypass It
+The “Impossible” level uses:
+- Parameterized queries (prepared statements)
+- Proper input type handling
+- No dynamic SQL concatenation
+
+### 💡 Lesson:
+Impossible-level SQLi in DVWA is a simulation of secure coding best practices, and you won't bypass it using traditional SQL injection techniques — and that’s the point!
+
+
