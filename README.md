@@ -293,15 +293,17 @@ Prerequisites are
 
 - Step 2: Access backend code
   `sudo nano /var/www/html/DVWA/vulnerabilities/sqli/source/impossible.php`
-(Image)
+  
+![backend](./backend.png)
+
   OR
   Click the **View Source** tab at the bottom of the page
-  (image)
+
 
   The input is bound as an interger as a key protection `**PDO::PARAM_INT**`. From this we know the page prevents an SQL injection.
   
 - Lets Test with **SQLMAP**
-- 
+ 
   Using this command `n"sqlmap --level=5 --risk=3 --flush-session -u "http://localhost/DVWA/vulnerabilities/sqli/?id=1" --cookie="PHPSESSID=vnqgiaravme1q5j1daaiv73g24; security=impossible""`
 
   This command performs an automated SQL injection testing against DVWA's impossible-level security.
@@ -312,13 +314,22 @@ Prerequisites are
   ![SQLMAP](./sqlmap3.png)
 
   - Result after failed attempts due to proper defenses
-    `[CRITICAL] all tested parameters appear to be not injectable
-[INFO] testing Connection: close
-[INFO] testing User-Agent: sqlmap/1.7.12
-[WARNING] reflexive heuristics detected that the target is protected by some kind of WAF/IPS/IDS
-[WARNING] no injection point found`
+  
+    `[CRITICAL] all tested parameters appear to be not injectable`
+    
+`[INFO] testing Connection: close`
+
+`[INFO] testing User-Agent: sqlmap/1.7.12`
+
+`[WARNING] reflexive heuristics detected that the target is protected by some kind of WAF/IPS/IDS`
+
+`[WARNING] no injection point found`
+
+![Result](./notinjectable.png)
 
 **This is good. It means the page is not vulnerable at this level**✅😊
+
+---
 
 ### Conclusion: Why You Can’t Bypass It
 The “Impossible” level uses:
